@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MovFlix</string>
+    <string name="title_tab_home">Home</string>
+    <string name="title_tab_movie_list">My Movie</string>
+</resources>
