@@ -2,4 +2,11 @@
     <string name="app_name">MovFlix</string>
     <string name="title_tab_home">Home</string>
     <string name="title_tab_movie_list">My Movie</string>
+    <string name="text_info">Info</string>
+    <string name="text_share">Share</string>
+    <string name="text_now_playing">Now Playing</string>
+    <string name="text_popular">Popular</string>
+    <string name="text_upcoming_movies">Upcoming Movies</string>
+    <string name="text_top_rated">Top Rated</string>
+    <string name="text_no_data">No Data</string>
 </resources>
