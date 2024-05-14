@@ -45,24 +45,24 @@ android {
             buildConfigField(
                 type = "String",
                 name = "BASE_URL",
-                value = "\"https://api.themoviedb.org/3/movie/\"",
+                value = "\"https://api.themoviedb.org/3/\"",
             )
             buildConfigField(
                 type = "String",
                 name = "Bearer",
-                value = "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMjZlNGRjNWMwZWY4MzQ5OWE2MGZmZjY4ZmUyZGIyZiIsInN1YiI6IjY2NDIwOGE1Y2IyZTNjZDgyMzk2ODQ2NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bpU61FJrQFmR-ZgVOjpMNg9Hsia5RxEzXbGonTV9ZA4\"",
+                value = "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMTgwOTYxNWE1YjQ0MGJlODU2YzFiYTk3MzA5MjhmOCIsInN1YiI6IjY2NDIwODZlMThhZDFlNzU4ODIxMGJiZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.un9TLjO0ftBIIUabUcseJFykpTjzSwIWpYWWUiV6h5I\"",
             )
         }
         create("integration") {
             buildConfigField(
                 type = "String",
                 name = "BASE_URL",
-                value = "\"https://api.themoviedb.org/3/movie/\"",
+                value = "\"https://api.themoviedb.org/3/\"",
             )
             buildConfigField(
                 type = "String",
                 name = "Bearer",
-                value = "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMjZlNGRjNWMwZWY4MzQ5OWE2MGZmZjY4ZmUyZGIyZiIsInN1YiI6IjY2NDIwOGE1Y2IyZTNjZDgyMzk2ODQ2NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bpU61FJrQFmR-ZgVOjpMNg9Hsia5RxEzXbGonTV9ZA4\"",
+                value = "\"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMTgwOTYxNWE1YjQ0MGJlODU2YzFiYTk3MzA5MjhmOCIsInN1YiI6IjY2NDIwODZlMThhZDFlNzU4ODIxMGJiZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.un9TLjO0ftBIIUabUcseJFykpTjzSwIWpYWWUiV6h5I\"",
             )
         }
     }
@@ -102,12 +102,14 @@ dependencies {
     implementation(libs.coroutine.core)
     implementation(libs.coroutine.android)
     implementation(libs.androidx.legacy.support.v4)
+    testImplementation("junit:junit:4.12")
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
     implementation(libs.koin.android)
+    implementation(libs.shimmer)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
