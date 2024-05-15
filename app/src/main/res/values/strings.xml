@@ -9,5 +9,12 @@
     <string name="text_upcoming_movies">Upcoming Movies</string>
     <string name="text_top_rated">Top Rated</string>
     <string name="text_no_data">No Data</string>
+    <string name="text_copy_url">Copy URL</string>
+    <string name="text_attention_title">Watch this movie!</string>
+    <string name="text_share_film">Share it to your closest people</string>
+    <string name="text_quick_share">Quick Share</string>
+    <string name="text_my_lists">My Lists</string>
+    <string name="text_share_it">Share</string>
+    <string name="text_url_poster">https://image.tmdb.org/t/p/w500%1$s</string>
     <string name="text_header_view_more">Header Text</string>
 </resources>
