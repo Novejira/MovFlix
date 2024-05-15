@@ -17,4 +17,5 @@
     <string name="text_share_it">Share</string>
     <string name="text_url_poster">https://image.tmdb.org/t/p/w500%1$s</string>
     <string name="text_header_view_more">Header Text</string>
+    <string name="text_my_list">My List</string>
 </resources>

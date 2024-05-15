@@ -52,9 +52,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private var nowPlayingMovies: List<Movie> = emptyList()
-    private var popularMovies: List<Movie> = emptyList()
-    private var topRatedMovies: List<Movie> = emptyList()
+    private var upComingMovies: List<Movie> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,7 +77,7 @@ class HomeFragment : Fragment() {
         proceedMoviePopular()
         proceedMovieTopRated()
         proceedMovieUpComing()
-        combineAndSetBannerMovies()
+        setupMovieBanner(upComingMovies)
         toViewMoreList()
         setClickListenerViewMoreAction()
     }
@@ -114,24 +112,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        combineAndSetBannerMovies()
-    }
-
-    private fun setupMovieBanner(movies: List<Movie>) {
-        if (movies.isNotEmpty()) {
-            binding.shimmerFrameLayoutBanner.isVisible = false
-            binding.layoutBanner.ivBg.isVisible = true
-            binding.layoutBanner.tvDesc.isVisible = true
-            binding.layoutBanner.tvTitle.isVisible = true
-            val randomMovie = movies.random()
-            bindBannerMovie(randomMovie)
-            binding.layoutBanner.ibInfo.setOnClickListener {
-                showInfoBottomSheet(randomMovie)
-            }
-            binding.layoutBanner.ibShare.setOnClickListener {
-                showShareBottomSheet(randomMovie)
-            }
-        }
+        setupMovieBanner(upComingMovies)
     }
 
     private fun bindBannerMovie(movie: Movie) {
@@ -178,7 +159,6 @@ class HomeFragment : Fragment() {
                     binding.rvNowPlaying.isVisible = true
                     it.payload?.let { data ->
                         bindMovieNowPlayingList(data)
-                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                 },
@@ -213,7 +193,6 @@ class HomeFragment : Fragment() {
                     binding.rvPopular.isVisible = true
                     it.payload?.let { data ->
                         bindMoviePopularList(data)
-                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                 },
@@ -247,7 +226,6 @@ class HomeFragment : Fragment() {
                     binding.rvTopRated.isVisible = true
                     it.payload?.let { data ->
                         bindMovieTopRatedList(data)
-                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                 },
@@ -301,28 +279,37 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindMovieNowPlayingList(data: List<Movie>) {
-        nowPlayingMovies = data
         nowPlayingAdapter.submitData(data)
     }
 
     private fun bindMoviePopularList(data: List<Movie>) {
-        popularMovies = data
         popularAdapter.submitData(data)
     }
 
     private fun bindMovieTopRatedList(data: List<Movie>) {
-        topRatedMovies = data
         topRatedAdapter.submitData(data)
     }
 
     private fun bindMovieUpComingList(data: List<Movie>) {
+        upComingMovies = data
         upComingAdapter.submitData(data)
+        setupMovieBanner(data)
     }
 
-    private fun combineAndSetBannerMovies() {
-        val combinedMovies = nowPlayingMovies + popularMovies + topRatedMovies
-        if (combinedMovies.isNotEmpty()) {
-            setupMovieBanner(combinedMovies)
+    private fun setupMovieBanner(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            binding.shimmerFrameLayoutBanner.isVisible = false
+            binding.layoutBanner.ivBg.isVisible = true
+            binding.layoutBanner.tvDesc.isVisible = true
+            binding.layoutBanner.tvTitle.isVisible = true
+            val randomMovie = movies.random()
+            bindBannerMovie(randomMovie)
+            binding.layoutBanner.ibInfo.setOnClickListener {
+                showInfoBottomSheet(randomMovie)
+            }
+            binding.layoutBanner.ibShare.setOnClickListener {
+                showShareBottomSheet(randomMovie)
+            }
         }
     }
 

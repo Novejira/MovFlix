@@ -18,8 +18,8 @@
             android:id="@+id/iv_movie_img"
             android:layout_width="120dp"
             android:layout_height="170dp"
-            android:scaleType="centerCrop"
             android:background="@color/shimmercolor"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,10 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
+        android:background="@color/shimmercolor"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textAlignment="center"
-        android:background="@color/shimmercolor"/>
+        android:textAlignment="center" />
 
 
 </LinearLayout>
