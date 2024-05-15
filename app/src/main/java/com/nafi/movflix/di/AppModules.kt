@@ -25,6 +25,7 @@ import com.nafi.movflix.data.repository.ViewMorePagingRepositoryImpl
 import com.nafi.movflix.data.source.network.service.MovFlixApiService
 import com.nafi.movflix.presentation.home.HomeViewModel
 import com.nafi.movflix.presentation.viewmore.ViewMoreViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -67,7 +68,12 @@ object AppModules {
     private val viewModel =
         module {
             viewModelOf(::HomeViewModel)
-            viewModelOf(::ViewMoreViewModel)
+            viewModel { params ->
+                ViewMoreViewModel(
+                    extras = params.get(),
+                    repository = get(),
+                )
+            }
         }
 
     val modules =

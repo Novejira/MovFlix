@@ -18,12 +18,14 @@
         />
 
     <TextView
+        android:id="@+id/tv_header_view_more"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Top Rated"
+        android:text="@string/text_header_view_more"
         android:layout_margin="12dp"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_arrow_back"
         app:layout_constraintTop_toTopOf="@+id/iv_arrow_back"

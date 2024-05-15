@@ -74,6 +74,28 @@ class HomeFragment : Fragment() {
         proceedMovieUpComing()
         combineAndSetBannerMovies()
         toViewMoreList()
+        setClickListenerViewMoreAction()
+    }
+
+    private fun setClickListenerViewMoreAction() {
+        val intent = Intent(requireContext(), ViewMoreActivity::class.java)
+
+        binding.ivMoreTopRated.setOnClickListener {
+            intent.putExtra("HEADER", "Top Rated")
+            startActivity(intent)
+        }
+        binding.ivMorePopular.setOnClickListener {
+            intent.putExtra("HEADER", "Popular")
+            startActivity(intent)
+        }
+        binding.ivMoreUpcoming.setOnClickListener {
+            intent.putExtra("HEADER", "Upcoming")
+            startActivity(intent)
+        }
+        binding.ivMoreNowPlaying.setOnClickListener {
+            intent.putExtra("HEADER", "Now Playing")
+            startActivity(intent)
+        }
     }
 
     private fun setupBanner() {

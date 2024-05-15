@@ -17,7 +17,7 @@ class PopularPagingSource(private val service: MovFlixApiService) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieListResponse> {
         val page = params.key ?: 1
         return try {
-            val response = service.getPopularMovies(false, false, "en-US", 1, "popularity.desc")
+            val response = service.getPopularMovies(false, false, "en-US", page, "popularity.desc")
             LoadResult.Page(
                 data = response.data,
                 prevKey = if (page == 1) null else page.minus(1),
