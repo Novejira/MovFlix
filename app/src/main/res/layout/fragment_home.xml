@@ -17,7 +17,6 @@
             android:layout_height="match_parent">
 
             <include
-
                 layout="@layout/layout_banner_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -39,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/text_now_playing"
+                android:layout_margin="8dp"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -74,9 +74,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/movie_now_playing_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/layout_movie_shimmer"
@@ -156,9 +158,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/movie_popular_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/layout_movie_shimmer"
@@ -238,9 +242,11 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/movie_up_coming_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/layout_movie_shimmer"
@@ -308,6 +314,7 @@
             android:id="@+id/shimmer_frame_layout_top_rated"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
             app:shimmer_duration="800">
 
             <include
@@ -321,6 +328,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:id="@+id/movie_top_rated_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
