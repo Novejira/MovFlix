@@ -27,6 +27,7 @@ turbine = "1.0.0"
 firebaseCrashlyticsBuildtools = "3.0.0"
 core-testing = "2.2.0"
 legacySupportV4 = "1.0.0"
+paging = "3.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -79,6 +80,9 @@ androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support
 
 #shimmer
 shimmer = "com.facebook.shimmer:shimmer:0.5.0"
+
+# Paging
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

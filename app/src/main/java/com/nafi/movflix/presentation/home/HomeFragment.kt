@@ -1,5 +1,6 @@
 package com.nafi.movflix.presentation.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.nafi.movflix.R
 import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.databinding.FragmentHomeBinding
 import com.nafi.movflix.presentation.home.adapter.MovieAdapter
+import com.nafi.movflix.presentation.viewmore.ViewMoreActivity
 import com.nafi.movflix.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -71,6 +73,7 @@ class HomeFragment : Fragment() {
         proceedMovieTopRated()
         proceedMovieUpComing()
         combineAndSetBannerMovies()
+        toViewMoreList()
     }
 
     private fun setupBanner() {
@@ -285,6 +288,12 @@ class HomeFragment : Fragment() {
         val combinedMovies = nowPlayingMovies + popularMovies + topRatedMovies
         if (combinedMovies.isNotEmpty()) {
             setupMovieBanner(combinedMovies)
+        }
+    }
+
+    private fun toViewMoreList() {
+        binding.ivMoreTopRated.setOnClickListener {
+            startActivity(Intent(requireContext(), ViewMoreActivity::class.java))
         }
     }
 }
