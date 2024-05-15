@@ -64,7 +64,7 @@ class MovieNowPlayingRepositoryImplTest {
                 delay(100)
                 it
             }.test {
-                delay(1201)
+                delay(201)
                 val data = expectMostRecentItem()
                 assertTrue(data is ResultWrapper.Loading)
                 coVerify { dataSource.getMovieList() }
@@ -107,7 +107,7 @@ class MovieNowPlayingRepositoryImplTest {
                 delay(100)
                 it
             }.test {
-                delay(1301)
+                delay(301)
                 val data = expectMostRecentItem()
                 assertTrue(data is ResultWrapper.Success)
                 coVerify { dataSource.getMovieList() }
@@ -123,7 +123,7 @@ class MovieNowPlayingRepositoryImplTest {
                 delay(100)
                 it
             }.test {
-                delay(1301)
+                delay(301)
                 val data = expectMostRecentItem()
                 assertTrue(data is ResultWrapper.Error)
                 coVerify { dataSource.getMovieList() }
@@ -142,7 +142,7 @@ class MovieNowPlayingRepositoryImplTest {
                 delay(100)
                 it
             }.test {
-                delay(1301)
+                delay(301)
                 val data = expectMostRecentItem()
                 assertTrue(data is ResultWrapper.Empty)
                 coVerify { dataSource.getMovieList() }
