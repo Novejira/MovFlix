@@ -22,7 +22,7 @@ class UpComingPagingSource(private val service: MovFlixApiService) :
                     false,
                     false,
                     "en-US",
-                    1,
+                    page,
                     "popularity.desc",
                     "2|3",
                     minDate = String(),
