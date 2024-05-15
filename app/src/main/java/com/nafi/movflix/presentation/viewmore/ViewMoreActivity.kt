@@ -1,12 +1,21 @@
 package com.nafi.movflix.presentation.viewmore
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.nafi.movflix.R
+import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
 import com.nafi.movflix.databinding.ActivityViewMoreBinding
+import com.nafi.movflix.databinding.SheetShareBinding
+import com.nafi.movflix.databinding.SheetViewBinding
 import com.nafi.movflix.presentation.viewmore.adapter.ViewMoreAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -24,7 +33,7 @@ class ViewMoreActivity : AppCompatActivity() {
 
     private val viewMoreAdapter: ViewMoreAdapter by lazy {
         ViewMoreAdapter { movie ->
-            Toast.makeText(this, "Clicked on ${movie.desc}", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog(movie)
         }
     }
 
@@ -103,5 +112,47 @@ class ViewMoreActivity : AppCompatActivity() {
                 viewMoreAdapter.submitData(pagingData)
             }
         }
+    }
+
+    private fun showBottomSheetDialog(movie: MovieListResponse) {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
+        bottomSheetBinding.apply {
+            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
+            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            tvTitleFilm.text = movie.title
+            tvDescFilm.text = movie.desc
+            tvRelease.text = movie.releaseDate
+            tvRating.text = movie.voteAverage.toString()
+        }
+
+        bottomSheetBinding.btnShared.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showBottomSheetShare(movie)
+        }
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun showBottomSheetShare(movie: MovieListResponse) {
+        val shareBottomSheetDialog = BottomSheetDialog(this)
+        val shareBottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        shareBottomSheetBinding.apply {
+            tvTitleFilm.text = movie.title
+            tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
+            btnCopyUrl.setOnClickListener {
+                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(this@ViewMoreActivity, "URL disalin", Toast.LENGTH_SHORT).show()
+            }
+            btnQuickShare.setOnClickListener {
+                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
+                startActivity(intent)
+            }
+        }
+        shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
+        shareBottomSheetDialog.show()
     }
 }

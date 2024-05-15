@@ -1,6 +1,10 @@
 package com.nafi.movflix.presentation.home
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +13,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nafi.movflix.R
 import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.databinding.FragmentHomeBinding
+import com.nafi.movflix.databinding.SheetShareBinding
+import com.nafi.movflix.databinding.SheetViewBinding
 import com.nafi.movflix.presentation.home.adapter.MovieAdapter
 import com.nafi.movflix.presentation.viewmore.ViewMoreActivity
 import com.nafi.movflix.utils.proceedWhen
@@ -23,25 +30,25 @@ class HomeFragment : Fragment() {
 
     private val nowPlayingAdapter: MovieAdapter by lazy {
         MovieAdapter { movie ->
-            Toast.makeText(context, "Clicked on ${movie.desc}", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog(movie)
         }
     }
 
     private val popularAdapter: MovieAdapter by lazy {
         MovieAdapter { movie ->
-            Toast.makeText(context, "Clicked on ${movie.desc}", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog(movie)
         }
     }
 
     private val topRatedAdapter: MovieAdapter by lazy {
         MovieAdapter { movie ->
-            Toast.makeText(context, "Clicked on ${movie.desc}", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog(movie)
         }
     }
 
     private val upComingAdapter: MovieAdapter by lazy {
         MovieAdapter { movie ->
-            Toast.makeText(context, "Clicked on ${movie.desc}", Toast.LENGTH_SHORT).show()
+            showBottomSheetDialog(movie)
         }
     }
 
@@ -118,6 +125,12 @@ class HomeFragment : Fragment() {
             binding.layoutBanner.tvTitle.isVisible = true
             val randomMovie = movies.random()
             bindBannerMovie(randomMovie)
+            binding.layoutBanner.ibInfo.setOnClickListener {
+                showInfoBottomSheet(randomMovie)
+            }
+            binding.layoutBanner.ibShare.setOnClickListener {
+                showShareBottomSheet(randomMovie)
+            }
         }
     }
 
@@ -311,6 +324,91 @@ class HomeFragment : Fragment() {
         if (combinedMovies.isNotEmpty()) {
             setupMovieBanner(combinedMovies)
         }
+    }
+
+    private fun showBottomSheetDialog(movie: Movie) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
+        bottomSheetBinding.apply {
+            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
+            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            tvTitleFilm.text = movie.title
+            tvDescFilm.text = movie.desc
+            tvRelease.text = movie.releaseDate
+            tvRating.text = movie.voteAverage.toString()
+        }
+
+        bottomSheetBinding.btnShared.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showBottomSheetShare(movie)
+        }
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun showBottomSheetShare(movie: Movie) {
+        val shareBottomSheetDialog = BottomSheetDialog(requireContext())
+        val shareBottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        shareBottomSheetBinding.apply {
+            tvTitleFilm.text = movie.title
+            tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
+            btnCopyUrl.setOnClickListener {
+                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+            }
+            btnQuickShare.setOnClickListener {
+                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
+                startActivity(intent)
+            }
+        }
+        shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
+        shareBottomSheetDialog.show()
+    }
+
+    private fun showInfoBottomSheet(movie: Movie) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
+        bottomSheetBinding.apply {
+            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
+            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            tvTitleFilm.text = movie.title
+            tvDescFilm.text = movie.desc
+            tvRelease.text = movie.releaseDate
+            tvRating.text = movie.voteAverage.toString()
+        }
+
+        bottomSheetBinding.btnShared.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            showBottomSheetShare(movie)
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun showShareBottomSheet(movie: Movie) {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        bottomSheetBinding.apply {
+            tvTitleFilm.text = movie.title
+            tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
+            btnCopyUrl.setOnClickListener {
+                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                clipboard.setPrimaryClip(clip)
+                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+            }
+            btnQuickShare.setOnClickListener {
+                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
+                startActivity(intent)
+            }
+        }
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
     }
 
     private fun toViewMoreList() {
