@@ -30,13 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:text="@string/text_now_playing"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -118,40 +111,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/layout_movie" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:text="@string/text_popular"
-                android:textSize="18sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
-                android:id="@+id/iv_more_popular"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_more"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:text="@string/text_popular"
-            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -209,38 +173,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/layout_movie" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:text="@string/text_upcoming_movies"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
-                android:id="@+id/iv_more_upcoming"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_more"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:text="@string/text_upcoming_movies"
-            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -298,37 +235,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/layout_movie" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:text="@string/text_top_rated"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <ImageView
-                android:id="@+id/iv_more_top_rated"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_more"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:text="@string/text_top_rated"
-            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
@@ -348,10 +259,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:orientation="horizontal">
 
                 <include
                     layout="@layout/layout_movie_shimmer"
