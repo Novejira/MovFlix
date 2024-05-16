@@ -342,6 +342,9 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
+
+        checkMovieIsList(movie, bottomSheetBinding)
+
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
