@@ -17,6 +17,7 @@ import com.nafi.movflix.databinding.ActivityViewMoreBinding
 import com.nafi.movflix.databinding.SheetShareBinding
 import com.nafi.movflix.databinding.SheetViewBinding
 import com.nafi.movflix.presentation.viewmore.adapter.ViewMoreAdapter
+import com.nafi.movflix.utils.proceedWhen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -130,6 +131,8 @@ class ViewMoreActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
+        checkMovieIsList(movie, bottomSheetBinding)
+
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
@@ -144,7 +147,11 @@ class ViewMoreActivity : AppCompatActivity() {
             btnCopyUrl.setOnClickListener {
                 val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(this@ViewMoreActivity, "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@ViewMoreActivity,
+                    getString(R.string.text_url_incopy),
+                    Toast.LENGTH_SHORT,
+                ).show()
             }
             btnQuickShare.setOnClickListener {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
@@ -154,5 +161,82 @@ class ViewMoreActivity : AppCompatActivity() {
         }
         shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
         shareBottomSheetDialog.show()
+    }
+
+    private fun setClickAddList(
+        detail: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            addToList(detail)
+        }
+    }
+
+    private fun setClickRemoveList(
+        movieId: Int?,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            removeFromList(movieId)
+        }
+    }
+
+    private fun checkMovieIsList(
+        data: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        viewMoreViewModel.checkMovieList(data.id).observe(
+            this,
+        ) { isList ->
+            if (isList.isEmpty()) {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_add)
+                setClickAddList(data, bottomSheetBinding)
+            } else {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
+                setClickRemoveList(data.id, bottomSheetBinding)
+            }
+        }
+    }
+
+    private fun removeFromList(movieId: Int?) {
+        viewMoreViewModel.removeFromList(movieId).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        getString(R.string.text_done_delete_to_list),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        getString(R.string.text_failed_delete_to_list),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
+    }
+
+    private fun addToList(detail: Movie) {
+        viewMoreViewModel.addToList(detail).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        getString(R.string.text_done_add_to_list),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        getString(R.string.text_failed_add_to_list),
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
     }
 }
