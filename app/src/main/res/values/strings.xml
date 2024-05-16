@@ -26,4 +26,5 @@
     <string name="text_url_incopy">URL disalin</string>
     <string name="text_failed_add_to_list">Gagal menambakan ke list</string>
     <string name="text_title_list">My List Movie </string>
+    <string name="text_failed_to_load_data">Failed To Load Data</string>
 </resources>

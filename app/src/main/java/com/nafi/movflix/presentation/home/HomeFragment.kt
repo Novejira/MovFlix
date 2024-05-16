@@ -168,7 +168,7 @@ class HomeFragment : Fragment() {
         homeViewModel.getMoviesNowPlaying().observe(viewLifecycleOwner) {
             it?.proceedWhen(
                 doOnLoading = {
-                    binding.shimmerFrameLayoutNowPlaying.isVisible = true
+                    binding.movieNowPlayingShimmer.isVisible = true
                     binding.rvNowPlaying.isVisible = false
                     binding.shimmerFrameLayoutNowPlaying.startShimmer()
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
@@ -183,13 +183,13 @@ class HomeFragment : Fragment() {
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutNowPlaying.isVisible = false
+                    binding.movieNowPlayingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = true
-                    binding.layoutStateErrorNowPlaying.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorNowPlaying.tvError.text = getString(R.string.text_failed_to_load_data)
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutNowPlaying.isVisible = false
+                    binding.movieNowPlayingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.text = getString(R.string.text_no_data)
@@ -202,14 +202,13 @@ class HomeFragment : Fragment() {
         homeViewModel.getMoviesPopular().observe(viewLifecycleOwner) {
             it?.proceedWhen(
                 doOnLoading = {
-                    binding.shimmerFrameLayoutPopular.isVisible = true
+                    binding.moviePopularShimmer.isVisible = true
                     binding.rvPopular.isVisible = false
-                    binding.shimmerFrameLayoutPopular.isVisible = true
                     binding.shimmerFrameLayoutPopular.startShimmer()
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                 },
                 doOnSuccess = {
-                    binding.shimmerFrameLayoutPopular.isVisible = false
+                    binding.moviePopularShimmer.isVisible = false
                     binding.rvPopular.isVisible = true
                     it.payload?.let { data ->
                         bindMoviePopularList(data)
@@ -218,13 +217,13 @@ class HomeFragment : Fragment() {
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutPopular.isVisible = false
+                    binding.moviePopularShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorPopular.tvError.isVisible = true
-                    binding.layoutStateErrorPopular.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorPopular.tvError.text = getString(R.string.text_failed_to_load_data)
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutPopular.isVisible = false
+                    binding.moviePopularShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                     binding.layoutStateErrorPopular.tvError.text = getString(R.string.text_no_data)
@@ -237,13 +236,13 @@ class HomeFragment : Fragment() {
         homeViewModel.getMoviesTopRated().observe(viewLifecycleOwner) {
             it?.proceedWhen(
                 doOnLoading = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = true
+                    binding.movieTopRatedShimmer.isVisible = true
                     binding.rvTopRated.isVisible = false
                     binding.shimmerFrameLayoutTopRated.startShimmer()
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                 },
                 doOnSuccess = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = false
+                    binding.movieTopRatedShimmer.isVisible = false
                     binding.rvTopRated.isVisible = true
                     it.payload?.let { data ->
                         bindMovieTopRatedList(data)
@@ -252,13 +251,13 @@ class HomeFragment : Fragment() {
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = false
+                    binding.movieTopRatedShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.isVisible = true
-                    binding.layoutStateErrorTopRated.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorTopRated.tvError.text = getString(R.string.text_failed_to_load_data)
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = false
+                    binding.movieTopRatedShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.text = getString(R.string.text_no_data)
@@ -271,13 +270,13 @@ class HomeFragment : Fragment() {
         homeViewModel.getMoviesUpComing().observe(viewLifecycleOwner) {
             it?.proceedWhen(
                 doOnLoading = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = true
+                    binding.movieUpComingShimmer.isVisible = true
                     binding.rvUpcomingMovies.isVisible = false
                     binding.shimmerFrameLayoutUpComing.startShimmer()
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                 },
                 doOnSuccess = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = false
+                    binding.movieUpComingShimmer.isVisible = false
                     binding.rvUpcomingMovies.isVisible = true
                     it.payload?.let { data ->
                         bindMovieUpComingList(data)
@@ -285,13 +284,13 @@ class HomeFragment : Fragment() {
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = false
+                    binding.movieUpComingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.isVisible = true
-                    binding.layoutStateErrorUpComing.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorUpComing.tvError.text = getString(R.string.text_failed_to_load_data)
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = false
+                    binding.movieUpComingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.text = getString(R.string.text_no_data)

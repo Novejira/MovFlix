@@ -61,13 +61,15 @@ class MyListFragment : Fragment() {
             result.proceedWhen(
                 doOnLoading = {
                     binding.layoutStateFavorite.root.isVisible = true
-                    binding.layoutStateFavorite.pbLoading.isVisible = true
+                    binding.layoutStateFavorite.pbLoading.isVisible = false
+                    binding.myMovieShimmer.isVisible = true
                     binding.layoutStateFavorite.tvError.isVisible = false
                     binding.rvListmovie.isVisible = false
                 },
                 doOnSuccess = {
                     binding.layoutStateFavorite.root.isVisible = false
                     binding.layoutStateFavorite.pbLoading.isVisible = false
+                    binding.myMovieShimmer.isVisible = false
                     binding.layoutStateFavorite.tvError.isVisible = false
                     binding.rvListmovie.isVisible = true
                     result.payload?.let {
@@ -77,6 +79,7 @@ class MyListFragment : Fragment() {
                 doOnEmpty = {
                     binding.layoutStateFavorite.root.isVisible = true
                     binding.layoutStateFavorite.pbLoading.isVisible = false
+                    binding.myMovieShimmer.isVisible = false
                     binding.layoutStateFavorite.tvError.isVisible = true
                     binding.layoutStateFavorite.tvError.text =
                         getString(R.string.text_empty_movie_list)
@@ -88,6 +91,7 @@ class MyListFragment : Fragment() {
                 doOnError = {
                     binding.layoutStateFavorite.root.isVisible = true
                     binding.layoutStateFavorite.pbLoading.isVisible = false
+                    binding.myMovieShimmer.isVisible = false
                     binding.layoutStateFavorite.tvError.isVisible = true
                     binding.rvListmovie.isVisible = false
                 },
