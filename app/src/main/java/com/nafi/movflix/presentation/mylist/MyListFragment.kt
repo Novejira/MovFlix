@@ -111,9 +111,8 @@ class MyListFragment : Fragment() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
-        bottomSheetBinding.btnList.setOnClickListener {
-            checkMovieIsList(movie, bottomSheetBinding)
-        }
+
+        checkMovieIsList(movie, bottomSheetBinding)
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
@@ -212,7 +211,7 @@ class MyListFragment : Fragment() {
             viewLifecycleOwner,
         ) { isList ->
             if (isList.isEmpty()) {
-                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_add)
                 setClickAddList(data, bottomSheetBinding)
             } else {
                 bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
