@@ -17,4 +17,6 @@
     <string name="text_share_it">Share</string>
     <string name="text_url_poster">https://image.tmdb.org/t/p/w500%1$s</string>
     <string name="text_header_view_more">Header Text</string>
+    <string name="text_title_list">My List Movie </string>
+    <string name="text_empty_movie_list">Tidak ada movie list</string>
 </resources>

@@ -42,7 +42,7 @@ class ViewMoreActivity : AppCompatActivity() {
 
         fun startActivity(
             context: Context,
-            header: String,
+            header: Int?,
         ) {
             val intent = Intent(context, ViewMoreActivity::class.java)
             intent.putExtra(HEADER, header)
@@ -129,6 +129,9 @@ class ViewMoreActivity : AppCompatActivity() {
         bottomSheetBinding.btnShared.setOnClickListener {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
+        }
+        bottomSheetBinding.btnList.setOnClickListener {
+            bottomSheetDialog.dismiss()
         }
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()

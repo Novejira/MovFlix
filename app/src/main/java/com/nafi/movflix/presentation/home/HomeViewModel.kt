@@ -2,6 +2,8 @@ package com.nafi.movflix.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.nafi.movflix.data.model.Movie
+import com.nafi.movflix.data.repository.ListMovieRepository
 import com.nafi.movflix.data.repository.MovieNowPlayingRepository
 import com.nafi.movflix.data.repository.MoviePopularRepository
 import com.nafi.movflix.data.repository.MovieTopRatedRepository
@@ -13,6 +15,7 @@ class HomeViewModel(
     private val moviePopularRepository: MoviePopularRepository,
     private val movieTopRatedRepository: MovieTopRatedRepository,
     private val movieUpComingRepository: MovieUpComingRepository,
+    private val listMovieRepository: ListMovieRepository,
 ) : ViewModel() {
     fun getMoviesNowPlaying() = movieNowPlayingRepository.getMoviesNowPlaying().asLiveData(Dispatchers.IO)
 
@@ -21,4 +24,10 @@ class HomeViewModel(
     fun getMoviesTopRated() = movieTopRatedRepository.getTopRatedPlaying().asLiveData(Dispatchers.IO)
 
     fun getMoviesUpComing() = movieUpComingRepository.getUpComingPlaying().asLiveData(Dispatchers.IO)
+
+    fun addToList(detail: Movie) = listMovieRepository.addList(detail).asLiveData(Dispatchers.IO)
+
+    fun checkMovieList(movieId: Int?) = listMovieRepository.checkListById(movieId).asLiveData(Dispatchers.IO)
+
+    fun removeFromList(movieId: Int?) = listMovieRepository.removeList(movieId).asLiveData(Dispatchers.IO)
 }
