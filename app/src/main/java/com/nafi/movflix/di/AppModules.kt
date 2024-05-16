@@ -86,6 +86,7 @@ object AppModules {
                 ViewMoreViewModel(
                     extras = params.get(),
                     repository = get(),
+                    listRepository = get(),
                 )
             }
             viewModel {
