@@ -12,11 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nafi.movflix.R
+import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
 import com.nafi.movflix.databinding.ActivityViewMoreBinding
 import com.nafi.movflix.databinding.SheetShareBinding
 import com.nafi.movflix.databinding.SheetViewBinding
 import com.nafi.movflix.presentation.viewmore.adapter.ViewMoreAdapter
+import com.nafi.movflix.utils.proceedWhen
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,7 +35,6 @@ class ViewMoreActivity : AppCompatActivity() {
 
     private val viewMoreAdapter: ViewMoreAdapter by lazy {
         ViewMoreAdapter { movie ->
-            showBottomSheetDialog(movie)
         }
     }
 
@@ -114,7 +115,7 @@ class ViewMoreActivity : AppCompatActivity() {
         }
     }
 
-    private fun showBottomSheetDialog(movie: MovieListResponse) {
+    private fun showBottomSheetDialog(movie: Movie) {
         val bottomSheetDialog = BottomSheetDialog(this)
         val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
@@ -130,14 +131,13 @@ class ViewMoreActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
-        bottomSheetBinding.btnList.setOnClickListener {
-            bottomSheetDialog.dismiss()
-        }
+        checkMovieIsList(movie, bottomSheetBinding)
+
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
 
-    private fun showBottomSheetShare(movie: MovieListResponse) {
+    private fun showBottomSheetShare(movie: Movie) {
         val shareBottomSheetDialog = BottomSheetDialog(this)
         val shareBottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
         val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -157,5 +157,83 @@ class ViewMoreActivity : AppCompatActivity() {
         }
         shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
         shareBottomSheetDialog.show()
+    }
+
+
+    private fun setClickAddList(
+        detail: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            addToList(detail)
+        }
+    }
+
+    private fun setClickRemoveList(
+        movieId: Int?,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            removeFromList(movieId)
+        }
+    }
+
+    private fun checkMovieIsList(
+        data: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        viewMoreViewModel.checkMovieList(data.id).observe(
+            this,
+        ) { isList ->
+            if (isList.isEmpty()) {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_add)
+                setClickAddList(data, bottomSheetBinding)
+            } else {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
+                setClickRemoveList(data.id, bottomSheetBinding)
+            }
+        }
+    }
+
+    private fun removeFromList(movieId: Int?) {
+        viewMoreViewModel.removeFromList(movieId).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        "Berhasil menghapus ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        "Gagal menghapus ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
+    }
+
+    private fun addToList(detail: Movie) {
+        viewMoreViewModel.addToList(detail).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        "Berhasil menambahkan ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        this@ViewMoreActivity,
+                        "Gagal menambakan ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
     }
 }
