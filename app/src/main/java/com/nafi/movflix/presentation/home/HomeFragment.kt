@@ -26,6 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+
     private val homeViewModel: HomeViewModel by viewModel()
 
     private val nowPlayingAdapter: MovieAdapter by lazy {
@@ -344,6 +345,10 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
+        bottomSheetBinding.btnList.setOnClickListener {
+            checkMovieIsList(movie, bottomSheetBinding)
+        }
+
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
@@ -416,6 +421,83 @@ class HomeFragment : Fragment() {
     private fun toViewMoreList() {
         binding.ivMoreTopRated.setOnClickListener {
             startActivity(Intent(requireContext(), ViewMoreActivity::class.java))
+        }
+    }
+
+    private fun setClickAddList(
+        detail: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            addToList(detail)
+        }
+    }
+
+    private fun setClickRemoveList(
+        movieId: Int?,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        bottomSheetBinding.btnList.setOnClickListener {
+            removeFromList(movieId)
+        }
+    }
+
+    private fun checkMovieIsList(
+        data: Movie,
+        bottomSheetBinding: SheetViewBinding,
+    ) {
+        homeViewModel.checkMovieList(data.id).observe(
+            viewLifecycleOwner,
+        ) { isList ->
+            if (isList.isEmpty()) {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
+                setClickAddList(data, bottomSheetBinding)
+            } else {
+                bottomSheetBinding.btnList.setIconResource(R.drawable.ic_plus)
+                setClickRemoveList(data.id, bottomSheetBinding)
+            }
+        }
+    }
+
+    private fun removeFromList(movieId: Int?) {
+        homeViewModel.removeFromList(movieId).observe(viewLifecycleOwner) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Berhasil menghapus ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gagal menghapus ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
+        }
+    }
+
+    private fun addToList(detail: Movie) {
+        homeViewModel.addToList(detail).observe(viewLifecycleOwner) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Berhasil menambahkan ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+                doOnError = {
+                    Toast.makeText(
+                        requireContext(),
+                        "Gagal menambakan ke list",
+                        Toast.LENGTH_SHORT,
+                    ).show()
+                },
+            )
         }
     }
 }
