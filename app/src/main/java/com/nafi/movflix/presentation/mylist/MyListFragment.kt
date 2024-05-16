@@ -20,7 +20,6 @@ import com.nafi.movflix.databinding.FragmentMyListBinding
 import com.nafi.movflix.databinding.SheetShareBinding
 import com.nafi.movflix.databinding.SheetViewBinding
 import com.nafi.movflix.presentation.mylist.adapter.ListMovieAdapter
-import com.nafi.movflix.presentation.mylist.adapter.ListMovieListener
 import com.nafi.movflix.utils.proceedWhen
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,19 +29,9 @@ class MyListFragment : Fragment() {
     private val viewModel: MyListViewModel by viewModel()
 
     private val adapter: ListMovieAdapter by lazy {
-        ListMovieAdapter(
-            object : ListMovieListener {
-                override fun onDeleteListClicked(list: Movie) {
-                    viewModel.deleteList(list)
-                }
-
-                override fun onItemClicked(movie: Movie?) {
-                    if (movie != null) {
-                        showBottomSheetDialog(movie)
-                    }
-                }
-            },
-        )
+        ListMovieAdapter { movie ->
+            showBottomSheetDialog(movie)
+        }
     }
 
     override fun onCreateView(
@@ -133,7 +122,8 @@ class MyListFragment : Fragment() {
     private fun showBottomSheetShare(movie: Movie) {
         val shareBottomSheetDialog = BottomSheetDialog(requireContext())
         val shareBottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         shareBottomSheetBinding.apply {
             tvTitleFilm.text = movie.title
             tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
@@ -176,7 +166,8 @@ class MyListFragment : Fragment() {
     private fun showShareBottomSheet(movie: Movie) {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         bottomSheetBinding.apply {
             tvTitleFilm.text = movie.title
             tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
@@ -194,6 +185,7 @@ class MyListFragment : Fragment() {
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
+
     private fun setClickAddList(
         detail: Movie,
         bottomSheetBinding: SheetViewBinding,
