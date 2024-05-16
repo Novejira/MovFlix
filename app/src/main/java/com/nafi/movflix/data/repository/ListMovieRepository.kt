@@ -1,9 +1,8 @@
 package com.nafi.movflix.data.repository
 
 import com.nafi.movflix.data.datasource.listmovie.ListMovieDataSource
-import com.nafi.movflix.data.mapper.toListEntity
-import com.nafi.movflix.data.mapper.toListMovie
-import com.nafi.movflix.data.model.ListMovie
+import com.nafi.movflix.data.mapper.toMovieEntity
+import com.nafi.movflix.data.mapper.toMovieList
 import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.data.sourcelocal.ListMovieEntity
 import com.nafi.movflix.utils.ResultWrapper
@@ -15,13 +14,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 
 interface ListMovieRepository {
-    fun getAllList(): Flow<ResultWrapper<List<ListMovie>>>
+    fun getAllList(): Flow<ResultWrapper<List<Movie>>>
 
     fun checkListById(movieId: Int?): Flow<List<ListMovieEntity>>
 
-    fun addList(detail: Movie): Flow<ResultWrapper<Boolean>>
+    fun addList(movie: Movie): Flow<ResultWrapper<Boolean>>
 
-    fun deleteList(list: ListMovie): Flow<ResultWrapper<Boolean>>
+    fun deleteList(movie: Movie): Flow<ResultWrapper<Boolean>>
 
     fun removeList(movieId: Int?): Flow<ResultWrapper<Boolean>>
 
@@ -29,11 +28,11 @@ interface ListMovieRepository {
 }
 
 class ListMovieRepositoryImpl(private val datasource: ListMovieDataSource) : ListMovieRepository {
-    override fun getAllList(): Flow<ResultWrapper<List<ListMovie>>> {
+    override fun getAllList(): Flow<ResultWrapper<List<Movie>>> {
         return datasource.getAllList()
             .map {
                 proceed {
-                    val result = it.toListMovie()
+                    val result = it.toMovieList()
                     result
                 }
             }.map {
@@ -49,20 +48,20 @@ class ListMovieRepositoryImpl(private val datasource: ListMovieDataSource) : Lis
         return datasource.checkListById(movieId)
     }
 
-    override fun addList(detail: Movie): Flow<ResultWrapper<Boolean>> {
-        return detail.id.let { movieId ->
+    override fun addList(movie: Movie): Flow<ResultWrapper<Boolean>> {
+        return movie.id.let { movieId ->
             proceedFlow {
                 val affectedRow =
                     datasource.addList(
                         ListMovieEntity(
                             movieId = movieId,
-                            moviePosterPath = "https://image.tmdb.org/t/p/w500${detail.posterPath}",
-                            movieTitle = detail.title,
-                            movieDesc = detail.desc,
-                            movieBackdropPath = detail.backdropPath,
-                            moviePopularity = detail.popularity,
-                            movieReleaseDate = detail.releaseDate,
-                            movieVoteAverage = detail.voteAverage,
+                            moviePosterPath = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                            movieTitle = movie.title,
+                            movieDesc = movie.desc,
+                            movieBackdropPath = movie.backdropPath,
+                            moviePopularity = movie.popularity,
+                            movieReleaseDate = movie.releaseDate,
+                            movieVoteAverage = movie.voteAverage,
                         ),
                     )
                 affectedRow > 0
@@ -70,8 +69,8 @@ class ListMovieRepositoryImpl(private val datasource: ListMovieDataSource) : Lis
         }
     }
 
-    override fun deleteList(list: ListMovie): Flow<ResultWrapper<Boolean>> {
-        return proceedFlow { datasource.deleteList(list.toListEntity()) > 0 }
+    override fun deleteList(movie: Movie): Flow<ResultWrapper<Boolean>> {
+        return proceedFlow { datasource.deleteList(movie.toMovieEntity()) > 0 }
     }
 
     override fun removeList(movieId: Int?): Flow<ResultWrapper<Boolean>> {

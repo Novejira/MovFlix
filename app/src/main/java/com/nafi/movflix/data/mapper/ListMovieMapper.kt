@@ -1,30 +1,30 @@
 package com.nafi.movflix.data.mapper
 
-import com.nafi.movflix.data.model.ListMovie
+import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.data.sourcelocal.ListMovieEntity
 
-fun ListMovie?.toListEntity() =
+fun Movie?.toMovieEntity() =
     ListMovieEntity(
-        movieId = this?.movieId,
-        movieTitle = this?.movieTitle,
-        movieDesc = this?.movieDesc,
-        movieBackdropPath = this?.movieBackdropPath,
-        moviePopularity = this?.moviePopularity,
-        moviePosterPath = this?.moviePosterPath,
-        movieReleaseDate = this?.movieReleaseDate,
-        movieVoteAverage = this?.movieVoteAverage,
+        movieId = this?.id,
+        movieTitle = this?.title,
+        movieDesc = this?.desc,
+        movieBackdropPath = this?.backdropPath,
+        moviePopularity = this?.popularity ?: 0.0,
+        moviePosterPath = this?.posterPath,
+        movieReleaseDate = this?.releaseDate,
+        movieVoteAverage = this?.voteAverage ?: 0.0,
     )
 
-fun ListMovieEntity?.toList() =
-    ListMovie(
-        movieId = this?.movieId,
-        movieTitle = this?.movieTitle,
-        movieDesc = this?.movieDesc,
-        movieBackdropPath = this?.movieBackdropPath,
-        moviePopularity = this?.moviePopularity,
-        moviePosterPath = this?.moviePosterPath,
-        movieReleaseDate = this?.movieReleaseDate,
-        movieVoteAverage = this?.movieVoteAverage,
+fun ListMovieEntity?.toMovie() =
+    Movie(
+        id = this?.movieId,
+        title = this?.movieTitle.orEmpty(),
+        desc = this?.movieDesc.orEmpty(),
+        backdropPath = this?.movieBackdropPath.orEmpty(),
+        popularity = this?.moviePopularity ?: 0.0,
+        posterPath = this?.moviePosterPath.orEmpty(),
+        releaseDate = this?.movieReleaseDate.orEmpty(),
+        voteAverage = this?.movieVoteAverage ?: 0.0,
     )
 
-fun List<ListMovieEntity>.toListMovie() = this.map { it.toList() }
+fun List<ListMovieEntity>.toMovieList() = this.map { it.toMovie() }
