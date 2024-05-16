@@ -13,6 +13,7 @@ import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nafi.movflix.R
 import com.nafi.movflix.data.model.Movie
+import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
 import com.nafi.movflix.databinding.ActivityViewMoreBinding
 import com.nafi.movflix.databinding.SheetShareBinding
 import com.nafi.movflix.databinding.SheetViewBinding
@@ -43,7 +44,7 @@ class ViewMoreActivity : AppCompatActivity() {
 
         fun startActivity(
             context: Context,
-            header: Int?,
+            header: String,
         ) {
             val intent = Intent(context, ViewMoreActivity::class.java)
             intent.putExtra(HEADER, header)

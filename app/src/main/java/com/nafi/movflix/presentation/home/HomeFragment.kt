@@ -26,7 +26,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-
     private val homeViewModel: HomeViewModel by viewModel()
 
     private val nowPlayingAdapter: MovieAdapter by lazy {
@@ -53,7 +52,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private var upComingMovies: List<Movie> = emptyList()
+    private var nowPlayingMovies: List<Movie> = emptyList()
+    private var popularMovies: List<Movie> = emptyList()
+    private var topRatedMovies: List<Movie> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
         proceedMoviePopular()
         proceedMovieTopRated()
         proceedMovieUpComing()
-        setupMovieBanner(upComingMovies)
+        combineAndSetBannerMovies()
         toViewMoreList()
         setClickListenerViewMoreAction()
     }
@@ -113,7 +114,24 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        setupMovieBanner(upComingMovies)
+        combineAndSetBannerMovies()
+    }
+
+    private fun setupMovieBanner(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            binding.shimmerFrameLayoutBanner.isVisible = false
+            binding.layoutBanner.ivBg.isVisible = true
+            binding.layoutBanner.tvDesc.isVisible = true
+            binding.layoutBanner.tvTitle.isVisible = true
+            val randomMovie = movies.random()
+            bindBannerMovie(randomMovie)
+            binding.layoutBanner.ibInfo.setOnClickListener {
+                showInfoBottomSheet(randomMovie)
+            }
+            binding.layoutBanner.ibShare.setOnClickListener {
+                showShareBottomSheet(randomMovie)
+            }
+        }
     }
 
     private fun bindBannerMovie(movie: Movie) {
@@ -151,30 +169,27 @@ class HomeFragment : Fragment() {
             it?.proceedWhen(
                 doOnLoading = {
                     binding.shimmerFrameLayoutNowPlaying.isVisible = true
-                    binding.movieNowPlayingShimmer.isVisible = true
                     binding.rvNowPlaying.isVisible = false
                     binding.shimmerFrameLayoutNowPlaying.startShimmer()
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                 },
                 doOnSuccess = {
                     binding.shimmerFrameLayoutNowPlaying.isVisible = false
-                    binding.movieNowPlayingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = true
                     it.payload?.let { data ->
                         bindMovieNowPlayingList(data)
+                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutNowPlaying.isVisible = true
-                    binding.movieNowPlayingShimmer.isVisible = false
+                    binding.shimmerFrameLayoutNowPlaying.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = true
-                    binding.layoutStateErrorNowPlaying.tvError.text = getString(R.string.text_error)
+                    binding.layoutStateErrorNowPlaying.tvError.text = it.exception?.message.orEmpty()
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutNowPlaying.isVisible = true
-                    binding.movieNowPlayingShimmer.isVisible = false
+                    binding.shimmerFrameLayoutNowPlaying.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.text = getString(R.string.text_no_data)
@@ -188,31 +203,29 @@ class HomeFragment : Fragment() {
             it?.proceedWhen(
                 doOnLoading = {
                     binding.shimmerFrameLayoutPopular.isVisible = true
-                    binding.moviePopularShimmer.isVisible = true
                     binding.rvPopular.isVisible = false
+                    binding.shimmerFrameLayoutPopular.isVisible = true
                     binding.shimmerFrameLayoutPopular.startShimmer()
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                 },
                 doOnSuccess = {
                     binding.shimmerFrameLayoutPopular.isVisible = false
-                    binding.moviePopularShimmer.isVisible = false
                     binding.rvPopular.isVisible = true
                     it.payload?.let { data ->
                         bindMoviePopularList(data)
+                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutPopular.isVisible = true
-                    binding.moviePopularShimmer.isVisible = false
-                    binding.rvPopular.isVisible = false
+                    binding.shimmerFrameLayoutPopular.isVisible = false
+                    binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorPopular.tvError.isVisible = true
-                    binding.layoutStateErrorPopular.tvError.text = getString(R.string.text_error)
+                    binding.layoutStateErrorPopular.tvError.text = it.exception?.message.orEmpty()
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutPopular.isVisible = true
-                    binding.rvPopular.isVisible = false
-                    binding.moviePopularShimmer.isVisible = false
+                    binding.shimmerFrameLayoutPopular.isVisible = false
+                    binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorPopular.tvError.isVisible = false
                     binding.layoutStateErrorPopular.tvError.text = getString(R.string.text_no_data)
                 },
@@ -225,30 +238,27 @@ class HomeFragment : Fragment() {
             it?.proceedWhen(
                 doOnLoading = {
                     binding.shimmerFrameLayoutTopRated.isVisible = true
-                    binding.movieTopRatedShimmer.isVisible = true
                     binding.rvTopRated.isVisible = false
                     binding.shimmerFrameLayoutTopRated.startShimmer()
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                 },
                 doOnSuccess = {
                     binding.shimmerFrameLayoutTopRated.isVisible = false
-                    binding.movieTopRatedShimmer.isVisible = false
                     binding.rvTopRated.isVisible = true
                     it.payload?.let { data ->
                         bindMovieTopRatedList(data)
+                        combineAndSetBannerMovies()
                     }
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = true
-                    binding.movieTopRatedShimmer.isVisible = false
+                    binding.shimmerFrameLayoutTopRated.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.isVisible = true
-                    binding.layoutStateErrorTopRated.tvError.text = getString(R.string.text_error)
+                    binding.layoutStateErrorTopRated.tvError.text = it.exception?.message.orEmpty()
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutTopRated.isVisible = true
-                    binding.movieTopRatedShimmer.isVisible = false
+                    binding.shimmerFrameLayoutTopRated.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.text = getString(R.string.text_no_data)
@@ -262,14 +272,12 @@ class HomeFragment : Fragment() {
             it?.proceedWhen(
                 doOnLoading = {
                     binding.shimmerFrameLayoutUpComing.isVisible = true
-                    binding.movieUpComingShimmer.isVisible = true
                     binding.rvUpcomingMovies.isVisible = false
                     binding.shimmerFrameLayoutUpComing.startShimmer()
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                 },
                 doOnSuccess = {
                     binding.shimmerFrameLayoutUpComing.isVisible = false
-                    binding.movieUpComingShimmer.isVisible = false
                     binding.rvUpcomingMovies.isVisible = true
                     it.payload?.let { data ->
                         bindMovieUpComingList(data)
@@ -277,15 +285,13 @@ class HomeFragment : Fragment() {
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                 },
                 doOnError = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = true
-                    binding.movieUpComingShimmer.isVisible = false
+                    binding.shimmerFrameLayoutUpComing.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.isVisible = true
-                    binding.layoutStateErrorUpComing.tvError.text = getString(R.string.text_error)
+                    binding.layoutStateErrorUpComing.tvError.text = it.exception?.message.orEmpty()
                 },
                 doOnEmpty = {
-                    binding.shimmerFrameLayoutUpComing.isVisible = true
-                    binding.movieUpComingShimmer.isVisible = false
+                    binding.shimmerFrameLayoutUpComing.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.text = getString(R.string.text_no_data)
@@ -295,37 +301,28 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindMovieNowPlayingList(data: List<Movie>) {
+        nowPlayingMovies = data
         nowPlayingAdapter.submitData(data)
     }
 
     private fun bindMoviePopularList(data: List<Movie>) {
+        popularMovies = data
         popularAdapter.submitData(data)
     }
 
     private fun bindMovieTopRatedList(data: List<Movie>) {
+        topRatedMovies = data
         topRatedAdapter.submitData(data)
     }
 
     private fun bindMovieUpComingList(data: List<Movie>) {
-        upComingMovies = data
         upComingAdapter.submitData(data)
-        setupMovieBanner(data)
     }
 
-    private fun setupMovieBanner(movies: List<Movie>) {
-        if (movies.isNotEmpty()) {
-            binding.shimmerFrameLayoutBanner.isVisible = false
-            binding.layoutBanner.ivBg.isVisible = true
-            binding.layoutBanner.tvDesc.isVisible = true
-            binding.layoutBanner.tvTitle.isVisible = true
-            val randomMovie = movies.random()
-            bindBannerMovie(randomMovie)
-            binding.layoutBanner.ibInfo.setOnClickListener {
-                showInfoBottomSheet(randomMovie)
-            }
-            binding.layoutBanner.ibShare.setOnClickListener {
-                showShareBottomSheet(randomMovie)
-            }
+    private fun combineAndSetBannerMovies() {
+        val combinedMovies = nowPlayingMovies + popularMovies + topRatedMovies
+        if (combinedMovies.isNotEmpty()) {
+            setupMovieBanner(combinedMovies)
         }
     }
 
@@ -345,8 +342,6 @@ class HomeFragment : Fragment() {
             bottomSheetDialog.dismiss()
             showBottomSheetShare(movie)
         }
-        checkMovieIsList(movie, bottomSheetBinding)
-
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
     }
@@ -404,7 +399,7 @@ class HomeFragment : Fragment() {
             btnCopyUrl.setOnClickListener {
                 val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), getString(R.string.text_url_incopy), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
