@@ -3,26 +3,26 @@ package com.nafi.movflix.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.data.paging.NowPlayingPagingSource
 import com.nafi.movflix.data.paging.PopularPagingSource
 import com.nafi.movflix.data.paging.TopRatedPagingSource
 import com.nafi.movflix.data.paging.UpComingPagingSource
-import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
 import com.nafi.movflix.data.source.network.service.MovFlixApiService
 import kotlinx.coroutines.flow.Flow
 
 interface ViewMorePagingRepository {
-    fun getTopRatedList(): Flow<PagingData<MovieListResponse>>
+    fun getTopRatedList(): Flow<PagingData<Movie>>
 
-    fun getUpComingList(): Flow<PagingData<MovieListResponse>>
+    fun getUpComingList(): Flow<PagingData<Movie>>
 
-    fun getPopularList(): Flow<PagingData<MovieListResponse>>
+    fun getPopularList(): Flow<PagingData<Movie>>
 
-    fun getNowPlayingList(): Flow<PagingData<MovieListResponse>>
+    fun getNowPlayingList(): Flow<PagingData<Movie>>
 }
 
 class ViewMorePagingRepositoryImpl(private val service: MovFlixApiService) : ViewMorePagingRepository {
-    override fun getTopRatedList(): Flow<PagingData<MovieListResponse>> =
+    override fun getTopRatedList(): Flow<PagingData<Movie>> =
         Pager(
             pagingSourceFactory = { TopRatedPagingSource(service) },
             config =
@@ -31,7 +31,7 @@ class ViewMorePagingRepositoryImpl(private val service: MovFlixApiService) : Vie
                 ),
         ).flow
 
-    override fun getUpComingList(): Flow<PagingData<MovieListResponse>> =
+    override fun getUpComingList(): Flow<PagingData<Movie>> =
         Pager(
             pagingSourceFactory = { UpComingPagingSource(service) },
             config =
@@ -40,7 +40,7 @@ class ViewMorePagingRepositoryImpl(private val service: MovFlixApiService) : Vie
                 ),
         ).flow
 
-    override fun getPopularList(): Flow<PagingData<MovieListResponse>> =
+    override fun getPopularList(): Flow<PagingData<Movie>> =
         Pager(
             pagingSourceFactory = { PopularPagingSource(service) },
             config =
@@ -49,7 +49,7 @@ class ViewMorePagingRepositoryImpl(private val service: MovFlixApiService) : Vie
                 ),
         ).flow
 
-    override fun getNowPlayingList(): Flow<PagingData<MovieListResponse>> =
+    override fun getNowPlayingList(): Flow<PagingData<Movie>> =
         Pager(
             pagingSourceFactory = { NowPlayingPagingSource(service) },
             config =
