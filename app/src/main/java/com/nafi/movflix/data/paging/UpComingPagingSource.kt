@@ -2,19 +2,20 @@ package com.nafi.movflix.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
+import com.nafi.movflix.data.mapper.toMovieList
+import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.data.source.network.service.MovFlixApiService
 
 class UpComingPagingSource(private val service: MovFlixApiService) :
-    PagingSource<Int, MovieListResponse>() {
-    override fun getRefreshKey(state: PagingState<Int, MovieListResponse>): Int? {
+    PagingSource<Int, Movie>() {
+    override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieListResponse> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         val page = params.key ?: 1
         return try {
             val response =
@@ -29,7 +30,7 @@ class UpComingPagingSource(private val service: MovFlixApiService) :
                     maxDate = String(),
                 )
             LoadResult.Page(
-                data = response.data,
+                data = response.data.toMovieList(),
                 prevKey = if (page == 1) null else page.minus(1),
                 nextKey = if (response.data.isEmpty()) null else page.plus(1),
             )

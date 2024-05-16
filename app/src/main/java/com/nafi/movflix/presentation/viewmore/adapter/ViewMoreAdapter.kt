@@ -6,24 +6,24 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
+import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.databinding.LayoutMovieBinding
 
-class ViewMoreAdapter(private val itemClick: (MovieListResponse) -> Unit) :
-    PagingDataAdapter<MovieListResponse, ViewMoreAdapter.ItemMovieViewHolder>(MOVIE_COMPARATOR) {
+class ViewMoreAdapter(private val itemClick: (Movie) -> Unit) :
+    PagingDataAdapter<Movie, ViewMoreAdapter.ItemMovieViewHolder>(MOVIE_COMPARATOR) {
     companion object {
         private val MOVIE_COMPARATOR =
-            object : DiffUtil.ItemCallback<MovieListResponse>() {
+            object : DiffUtil.ItemCallback<Movie>() {
                 override fun areItemsTheSame(
-                    oldItem: MovieListResponse,
-                    newItem: MovieListResponse,
+                    oldItem: Movie,
+                    newItem: Movie,
                 ): Boolean {
                     return oldItem.id == newItem.id
                 }
 
                 override fun areContentsTheSame(
-                    oldItem: MovieListResponse,
-                    newItem: MovieListResponse,
+                    oldItem: Movie,
+                    newItem: Movie,
                 ): Boolean {
                     return oldItem.hashCode() == newItem.hashCode()
                 }
@@ -55,9 +55,9 @@ class ViewMoreAdapter(private val itemClick: (MovieListResponse) -> Unit) :
 
     class ItemMovieViewHolder(
         private val binding: LayoutMovieBinding,
-        val itemClick: (MovieListResponse) -> Unit,
+        val itemClick: (Movie) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bindView(item: MovieListResponse) {
+        fun bindView(item: Movie) {
             with(item) {
                 binding.ivMovieImg.load("https://image.tmdb.org/t/p/w500${item.posterPath}") {
                     crossfade(true)
