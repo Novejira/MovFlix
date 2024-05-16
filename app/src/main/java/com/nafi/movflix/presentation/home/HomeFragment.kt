@@ -169,7 +169,7 @@ class HomeFragment : Fragment() {
                     binding.movieNowPlayingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorNowPlaying.tvError.isVisible = true
-                    binding.layoutStateErrorNowPlaying.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorNowPlaying.tvError.text = getString(R.string.text_error)
                 },
                 doOnEmpty = {
                     binding.shimmerFrameLayoutNowPlaying.isVisible = true
@@ -206,7 +206,7 @@ class HomeFragment : Fragment() {
                     binding.moviePopularShimmer.isVisible = false
                     binding.rvPopular.isVisible = false
                     binding.layoutStateErrorPopular.tvError.isVisible = true
-                    binding.layoutStateErrorPopular.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorPopular.tvError.text = getString(R.string.text_error)
                 },
                 doOnEmpty = {
                     binding.shimmerFrameLayoutPopular.isVisible = true
@@ -243,7 +243,7 @@ class HomeFragment : Fragment() {
                     binding.movieTopRatedShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorTopRated.tvError.isVisible = true
-                    binding.layoutStateErrorTopRated.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorTopRated.tvError.text = getString(R.string.text_error)
                 },
                 doOnEmpty = {
                     binding.shimmerFrameLayoutTopRated.isVisible = true
@@ -280,7 +280,7 @@ class HomeFragment : Fragment() {
                     binding.movieUpComingShimmer.isVisible = false
                     binding.rvNowPlaying.isVisible = false
                     binding.layoutStateErrorUpComing.tvError.isVisible = true
-                    binding.layoutStateErrorUpComing.tvError.text = it.exception?.message.orEmpty()
+                    binding.layoutStateErrorUpComing.tvError.text = getString(R.string.text_error)
                 },
                 doOnEmpty = {
                     binding.shimmerFrameLayoutUpComing.isVisible = true
