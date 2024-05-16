@@ -13,8 +13,6 @@ import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.nafi.movflix.R
 import com.nafi.movflix.data.model.Movie
-import com.nafi.movflix.data.source.network.model.movie.MovieListResponse
-import com.nafi.movflix.data.model.Movie
 import com.nafi.movflix.databinding.ActivityViewMoreBinding
 import com.nafi.movflix.databinding.SheetShareBinding
 import com.nafi.movflix.databinding.SheetViewBinding
@@ -149,7 +147,11 @@ class ViewMoreActivity : AppCompatActivity() {
             btnCopyUrl.setOnClickListener {
                 val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(this@ViewMoreActivity, "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@ViewMoreActivity,
+                    getString(R.string.text_url_incopy),
+                    Toast.LENGTH_SHORT,
+                ).show()
             }
             btnQuickShare.setOnClickListener {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
@@ -160,7 +162,6 @@ class ViewMoreActivity : AppCompatActivity() {
         shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
         shareBottomSheetDialog.show()
     }
-
 
     private fun setClickAddList(
         detail: Movie,
@@ -203,14 +204,14 @@ class ViewMoreActivity : AppCompatActivity() {
                 doOnSuccess = {
                     Toast.makeText(
                         this@ViewMoreActivity,
-                        "Berhasil menghapus ke list",
+                        getString(R.string.text_done_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         this@ViewMoreActivity,
-                        "Gagal menghapus ke list",
+                        getString(R.string.text_failed_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
@@ -224,14 +225,14 @@ class ViewMoreActivity : AppCompatActivity() {
                 doOnSuccess = {
                     Toast.makeText(
                         this@ViewMoreActivity,
-                        "Berhasil menambahkan ke list",
+                        getString(R.string.text_done_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         this@ViewMoreActivity,
-                        "Gagal menambakan ke list",
+                        getString(R.string.text_failed_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },

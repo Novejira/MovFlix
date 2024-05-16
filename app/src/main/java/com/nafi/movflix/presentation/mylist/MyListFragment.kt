@@ -129,7 +129,7 @@ class MyListFragment : Fragment() {
             btnCopyUrl.setOnClickListener {
                 val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.text_url_incopy, Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
@@ -139,50 +139,6 @@ class MyListFragment : Fragment() {
         }
         shareBottomSheetDialog.setContentView(shareBottomSheetBinding.root)
         shareBottomSheetDialog.show()
-    }
-
-    private fun showInfoBottomSheet(movie: Movie) {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
-        bottomSheetBinding.apply {
-            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-            tvTitleFilm.text = movie.title
-            tvDescFilm.text = movie.desc
-            tvRelease.text = movie.releaseDate
-            tvRating.text = movie.voteAverage.toString()
-        }
-
-        bottomSheetBinding.btnShared.setOnClickListener {
-            bottomSheetDialog.dismiss()
-            showBottomSheetShare(movie)
-        }
-
-        bottomSheetDialog.setContentView(bottomSheetBinding.root)
-        bottomSheetDialog.show()
-    }
-
-    private fun showShareBottomSheet(movie: Movie) {
-        val bottomSheetDialog = BottomSheetDialog(requireContext())
-        val bottomSheetBinding = SheetShareBinding.inflate(layoutInflater)
-        val clipboard =
-            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        bottomSheetBinding.apply {
-            tvTitleFilm.text = movie.title
-            tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
-            btnCopyUrl.setOnClickListener {
-                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
-                clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
-            }
-            btnQuickShare.setOnClickListener {
-                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
-                startActivity(intent)
-            }
-        }
-        bottomSheetDialog.setContentView(bottomSheetBinding.root)
-        bottomSheetDialog.show()
     }
 
     private fun setClickAddList(
@@ -226,14 +182,14 @@ class MyListFragment : Fragment() {
                 doOnSuccess = {
                     Toast.makeText(
                         requireContext(),
-                        "Berhasil menghapus ke list",
+                        getString(R.string.text_done_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         requireContext(),
-                        "Gagal menghapus ke list",
+                        getString(R.string.text_failed_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
@@ -247,14 +203,14 @@ class MyListFragment : Fragment() {
                 doOnSuccess = {
                     Toast.makeText(
                         requireContext(),
-                        "Berhasil menambahkan ke list",
+                        getString(R.string.text_done_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         requireContext(),
-                        "Gagal menambakan ke list",
+                        getString(R.string.text_failed_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },

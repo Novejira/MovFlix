@@ -404,7 +404,7 @@ class HomeFragment : Fragment() {
             btnCopyUrl.setOnClickListener {
                 val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.text_url_incopy), Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
                 val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
@@ -463,14 +463,14 @@ class HomeFragment : Fragment() {
                 doOnSuccess = {
                     Toast.makeText(
                         requireContext(),
-                        "Berhasil menghapus ke list",
+                        getString(R.string.text_done_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         requireContext(),
-                        "Gagal menghapus ke list",
+                        getString(R.string.text_failed_delete_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
@@ -484,14 +484,14 @@ class HomeFragment : Fragment() {
                 doOnSuccess = {
                     Toast.makeText(
                         requireContext(),
-                        "Berhasil menambahkan ke list",
+                        getString(R.string.text_done_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
                 doOnError = {
                     Toast.makeText(
                         requireContext(),
-                        "Gagal menambakan ke list",
+                        getString(R.string.text_failed_add_to_list),
                         Toast.LENGTH_SHORT,
                     ).show()
                 },

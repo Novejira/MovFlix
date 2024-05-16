@@ -21,4 +21,9 @@
     <string name="text_empty_movie_list">Tidak ada movie list</string>
     <string name="text_my_list">My List</string>
     <string name="text_error">Gagal Memuat Data</string>
+    <string name="text_done_delete_to_list">Berhasil menghapus ke list</string>
+    <string name="text_failed_delete_to_list">Gagal menghapus ke list</string>
+    <string name="text_done_add_to_list">Berhasil menambahkan ke list</string>
+    <string name="text_url_incopy">URL disalin</string>
+    <string name="text_failed_add_to_list">Gagal menambakan ke list</string>
 </resources>
