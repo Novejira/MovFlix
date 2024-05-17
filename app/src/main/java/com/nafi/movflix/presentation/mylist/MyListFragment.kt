@@ -103,8 +103,8 @@ class MyListFragment : Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
-            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            ivBannerFilm.load("${getString(R.string.text_link_image)}${movie.backdropPath}")
+            ivPoster.load("${getString(R.string.text_link_image)}${movie.posterPath}")
             tvTitleFilm.text = movie.title
             tvDescFilm.text = movie.desc
             tvRelease.text = movie.releaseDate
@@ -131,12 +131,12 @@ class MyListFragment : Fragment() {
             tvTitleFilm.text = movie.title
             tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
             btnCopyUrl.setOnClickListener {
-                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                val clip = ClipData.newPlainText(getString(R.string.text_label_url), tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
                 Toast.makeText(requireContext(), R.string.text_url_incopy, Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
-                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val posterUrl = "${getString(R.string.text_link_image)}${movie.posterPath}"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
                 startActivity(intent)
             }
