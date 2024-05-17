@@ -27,4 +27,11 @@
     <string name="text_failed_add_to_list">Gagal menambakan ke list</string>
     <string name="text_title_list">My List Movie </string>
     <string name="text_failed_to_load_data">Failed To Load Data</string>
+    <string name="text_header_intent">HEADER</string>
+    <string name="text_intent_top_rated">Top Rated</string>
+    <string name="text_intent_popular">Popular</string>
+    <string name="text_intent_upcoming">Upcoming</string>
+    <string name="text_intent_now_playing">Now Playing</string>
+    <string name="text_link_image">https://image.tmdb.org/t/p/w500</string>
+    <string name="text_label_url">URL</string>
 </resources>

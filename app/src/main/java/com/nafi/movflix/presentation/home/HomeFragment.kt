@@ -88,19 +88,31 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), ViewMoreActivity::class.java)
 
         binding.ivMoreTopRated.setOnClickListener {
-            intent.putExtra("HEADER", "Top Rated")
+            intent.putExtra(
+                getString(R.string.text_header_intent),
+                getString(R.string.text_intent_top_rated),
+            )
             startActivity(intent)
         }
         binding.ivMorePopular.setOnClickListener {
-            intent.putExtra("HEADER", "Popular")
+            intent.putExtra(
+                getString(R.string.text_header_intent),
+                getString(R.string.text_intent_popular),
+            )
             startActivity(intent)
         }
         binding.ivMoreUpcoming.setOnClickListener {
-            intent.putExtra("HEADER", "Upcoming")
+            intent.putExtra(
+                getString(R.string.text_header_intent),
+                getString(R.string.text_intent_upcoming),
+            )
             startActivity(intent)
         }
         binding.ivMoreNowPlaying.setOnClickListener {
-            intent.putExtra("HEADER", "Now Playing")
+            intent.putExtra(
+                getString(R.string.text_header_intent),
+                getString(R.string.text_intent_now_playing),
+            )
             startActivity(intent)
         }
     }
@@ -135,7 +147,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindBannerMovie(movie: Movie) {
-        binding.layoutBanner.ivBg.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+        binding.layoutBanner.ivBg.load("${getString(R.string.text_link_image)}${movie.posterPath}")
         binding.layoutBanner.tvTitle.text = movie.title
         binding.layoutBanner.tvDesc.text = movie.desc
     }
@@ -329,8 +341,8 @@ class HomeFragment : Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
-            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            ivBannerFilm.load("${getString(R.string.text_link_image)}${movie.backdropPath}")
+            ivPoster.load("${getString(R.string.text_link_image)}${movie.posterPath}")
             tvTitleFilm.text = movie.title
             tvDescFilm.text = movie.desc
             tvRelease.text = movie.releaseDate
@@ -356,12 +368,12 @@ class HomeFragment : Fragment() {
             tvTitleFilm.text = movie.title
             tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
             btnCopyUrl.setOnClickListener {
-                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                val clip = ClipData.newPlainText(getString(R.string.text_label_url), tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.text_url_incopy), Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
-                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val posterUrl = "${getString(R.string.text_link_image)}${movie.posterPath}"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
                 startActivity(intent)
             }
@@ -374,8 +386,8 @@ class HomeFragment : Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val bottomSheetBinding = SheetViewBinding.inflate(layoutInflater)
         bottomSheetBinding.apply {
-            ivBannerFilm.load("https://image.tmdb.org/t/p/w500${movie.backdropPath}")
-            ivPoster.load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            ivBannerFilm.load("${getString(R.string.text_link_image)}${movie.backdropPath}")
+            ivPoster.load("${getString(R.string.text_link_image)}${movie.posterPath}")
             tvTitleFilm.text = movie.title
             tvDescFilm.text = movie.desc
             tvRelease.text = movie.releaseDate
@@ -399,12 +411,12 @@ class HomeFragment : Fragment() {
             tvTitleFilm.text = movie.title
             tvUrlFilm.text = (getString(R.string.text_url_poster, movie.posterPath))
             btnCopyUrl.setOnClickListener {
-                val clip = ClipData.newPlainText("URL", tvUrlFilm.text)
+                val clip = ClipData.newPlainText(getString(R.string.text_label_url), tvUrlFilm.text)
                 clipboard.setPrimaryClip(clip)
-                Toast.makeText(requireContext(), "URL disalin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.text_url_incopy), Toast.LENGTH_SHORT).show()
             }
             btnQuickShare.setOnClickListener {
-                val posterUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+                val posterUrl = "${getString(R.string.text_link_image)}${movie.posterPath}"
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(posterUrl))
                 startActivity(intent)
             }
