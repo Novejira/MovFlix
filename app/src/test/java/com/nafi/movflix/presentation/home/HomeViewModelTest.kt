@@ -1,6 +1,7 @@
 package com.nafi.movflix.presentation.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.nafi.movflix.data.repository.ListMovieRepository
 import com.nafi.movflix.data.repository.MovieNowPlayingRepository
 import com.nafi.movflix.data.repository.MoviePopularRepository
 import com.nafi.movflix.data.repository.MovieTopRatedRepository
@@ -43,6 +44,9 @@ class HomeViewModelTest {
     @MockK
     lateinit var movieUpComingRepository: MovieUpComingRepository
 
+    @MockK
+    lateinit var listMovieRepository: ListMovieRepository
+
     private lateinit var viewModel: HomeViewModel
 
     @Before
@@ -55,6 +59,7 @@ class HomeViewModelTest {
                     moviePopularRepository,
                     movieTopRatedRepository,
                     movieUpComingRepository,
+                    listMovieRepository,
                 ),
             )
     }
